@@ -1,0 +1,48 @@
+{
+  "name": "bash-emulator",
+  "version": "1.1.0",
+  "description": "Emulate a bash environment in plain js. Can be used in the browser.",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:trybash/bash-emulator.git"
+  },
+  "homepage": "https://trybash.github.io/bash-emulator",
+  "scripts": {
+    "build": "browserify src/browser-version.js | uglifyjs > bash-emulator.min.js",
+    "test": "npm run lint && npm run cover",
+    "lint": "standard",
+    "cover": "istanbul cover --report html test/index.js && npm run check && echo 'For more see: coverage/index.html'",
+    "check": "istanbul check-coverage --statements 95"
+  },
+  "keywords": [
+    "bash",
+    "emulator",
+    "shell",
+    "simulator",
+    "browser",
+    "commandline",
+    "cli",
+    "linux",
+    "unix"
+  ],
+  "author": {
+    "name": "Jorin Vogel",
+    "email": "hi@jorin.me",
+    "url": "https://jorin.me"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "array.prototype.findindex": "^2.0.0",
+    "string.prototype.includes": "^1.0.0",
+    "string.prototype.repeat": "^0.2.0",
+    "string.prototype.startswith": "^0.2.0"
+  },
+  "devDependencies": {
+    "browserify": "^14.0.0",
+    "istanbul": "^0.4.3",
+    "standard": "^8.0.0",
+    "tape": "^4.5.1",
+    "uglify-js": "^3.0.4"
+  }
+}

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>0x00sec.c</title>
+
+    <style>
+      body {
+        color: white;
+        font-size: 100%;
+        height: 100%;
+        width: 80%;
+        margin: 0;
+        padding-right: 100px;
+        padding-left: 100px;
+      }
+
+      a {
+        color: #fff;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: #1793d1;
+      }
+
+      body, #input {
+        background: #161616;
+        font-family: monospace;
+        line-height: 120%;
+      }
+
+      #header {
+        padding-top: 100px;
+      }
+
+      #title {
+        font-size: 50px;
+      }
+
+      #output {
+        padding-top: 10px;
+        white-space: pre;
+      }
+
+      #input {
+        width: 90%;
+        border: none;
+        font-size: inherit;
+      }
+
+      #input:focus {
+        outline: none;
+      }
+
+      #input, .input-wrap {
+        color: lime;
+      }
+
+      .error {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+  
+
+    <div id="header">
+      <h1> <span id="title"> 0x00sec </span> - <a href="">Forum</a> - <a href="">IRC</a> - <a href="">Partners</a></h1>
+    </div>
+
+    <div id="output"></div>
+
+    <div class="input-wrap">
+      <span>$</span>
+      <input id="input" type="text" autofocus />
+    </div>
+
+    <script src="bash-emulator.min.js"></script>
+    <script>
+      var input = document.getElementById('input')
+      var output = document.getElementById('output')
+
+      var emulator = bashEmulator({
+        workingDirectory: '/home/0x00sec/',
+        fileSystem: {
+          '/': {
+            type: 'dir',
+            modified: Date.now()
+          },
+          '/README.txt': {
+            type: 'file',
+            modified: Date.now(),
+            content: 'empty'
+          },
+          '/home': {
+            type: 'dir',
+            modified: Date.now()
+          },
+          '/home/0x00sec/irc.txt': {
+            type: 'file',
+            modified: Date.now(),
+            content: 'irc.0x00sec.org:6697+ or https://webchat.0x00sec.org/'
+          },
+          '/home/0x00sec/forum.txt': {
+            type: 'file',
+            modified: Date.now(),
+            content: 'https://0x00sec.org/'
+          },
+          '/home/0x00sec/.flag.txt': {
+            type: 'file',
+            modified: Date.now(),
+            content: 'PMQl1XW-a57YD4r-HGweg54-Ao0eektm-paSBa5-hvYC'
+          },
+          '/home/0x00sec/partners.txt': {
+            type: 'file',
+            modified: Date.now(),
+            content: 'Hackthebox - https://hackthebox.eu/\n\nSequoia Cyber Solutions - https://www.sequoiacybersolutions.com/\n\nBinary Ninja - https://binary.ninja/'
+          },
+          '/home/0x00sec': {
+            type: 'dir',
+            modified: Date.now()
+          }
+        }
+      })
+
+      emulator.commands.clear = function (env) {
+        output.innerHTML = ''
+        env.exit()
+      }
+
+      var ENTER = 13
+      var UP = 38
+      var DOWN = 40
+
+      function log (result) {
+        if (result) {
+          output.innerHTML += result + '\n'
+        }
+      }
+
+      function error (result) {
+        log('<div class="error">' + result + '</div>')
+      }
+
+      function run (cmd) {
+        log('$ ' + cmd)
+        return emulator.run(cmd).then(log, error)
+      }
+
+      var completeFunctions = {}
+      completeFunctions[UP] = emulator.completeUp
+      completeFunctions[DOWN] = emulator.completeDown
+
+      function complete (direction) {
+        var completeFunction = completeFunctions[direction]
+        if (!completeFunction) {
+          return
+        }
+        var cursorPosition = input.selectionStart
+        var beforeCursor = input.value.slice(0, cursorPosition)
+        completeFunction(beforeCursor).then(function (completion) {
+          if (completion) {
+            input.value = completion
+            input.setSelectionRange(cursorPosition, cursorPosition)
+          }
+        })
+      }
+
+      input.addEventListener('keydown', function (e) {
+        if (e.altKey || e.metaKey || e.shiftKey || e.ctrlKey) {
+          return
+        }
+        if (e.which === UP || e.which === DOWN) {
+          e.preventDefault()
+          complete(e.which)
+        }
+      })
+
+      input.addEventListener('keyup', function (e) {
+        if (e.which !== ENTER) {
+          return
+        }
+        run(input.value).then(function () {
+          input.value = ''
+          document.body.scrollTop = 10e6
+        })
+      })
+
+      document.body.addEventListener('click', function () {
+        // Prevent when user is selecting text
+        if (!window.getSelection().isCollapsed) {
+          return
+        }
+        input.focus()
+      })
+
+      run('pwd');
+    </script>
+  <body>
+<html>
