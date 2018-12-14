@@ -32,7 +32,12 @@
       }
 
       #header {
-        padding-top: 100px;
+        padding-top: 50px;
+      }
+
+      #logo {
+        padding: -100;
+        margin: -100;
       }
 
       #title {
@@ -67,7 +72,7 @@
   
 
     <div id="header">
-      <h1> <span id="title"> 0x00sec </span> - <a href="javascript:run('cat forum.txt')">Forum</a> - <a href="javascript:run('cat irc.txt')">IRC</a> - <a href="javascript:run('cat partners.txt')">Partners</a></h1>
+      <img id="logo" src="assets/0x00sec.png"><h1><a href="javascript:run('cat forum.txt')">Forum</a> - <a href="javascript:run('cat irc.txt')">IRC</a> - <a href="javascript:run('cat partners.txt')">Partners</a></h1>
     </div>
 
     <div id="output"></div>
@@ -116,7 +121,7 @@
           '/home/0x00sec/partners.txt': {
             type: 'file',
             modified: Date.now(),
-            content: '### Partners \n\nHackthebox - <a href="https://hackthebox.eu/">https://hackthebox.eu/</a>\n<br><img src="assets/hackthebox.png">\n\nSequoia Cyber Solutions - <a href="https://www.sequoiacybersolutions.com">https://www.sequoiacybersolutions.com</a>\n<br><img width="300px" src="assets/sequoia.png">\n\nBinary Ninja - https://binary.ninja/\n<br><img width="300px" src="assets/binaryninja.png">'
+            content: '### Partners \n\nHackthebox - <a href="https://hackthebox.eu/">https://hackthebox.eu/</a>\n<br><img src="assets/hackthebox.png">\n\nSequoia Cyber Solutions - <a href="https://www.sequoiacybersolutions.com">https://www.sequoiacybersolutions.com</a>\n<br><img width="500px" src="assets/sequoia.png">\n\nBinary Ninja - https://binary.ninja/\n<br><img width="500px" src="assets/binaryninja.png">'
           },
           '/home/0x00sec': {
             type: 'dir',
@@ -196,7 +201,9 @@
         input.focus()
       })
 
-      run('pwd');
+      run('pwd').then(function () {
+        run('ls')
+      })
     </script>
   <body>
 <html>
