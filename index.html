@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 
-    <title>0x00sec.c</title>
+    <title>0x00sec Init</title>
 
     <style>
       body {
@@ -25,20 +25,35 @@
         color: #1793d1;
       }
 
+      body {
+        background-color: #161616;
+      }
+
       body, #input {
-        background: #161616;
         font-family: monospace;
         line-height: 120%;
+      }
+
+      #input {
+        background-color: #121212;
       }
 
       #header {
         padding-top: 50px;
       }
 
-      #logo {
-        padding: -100;
-        margin: -100;
+      #shell {
+        background-color: #121212;
+        border-style: solid;
+        border-width: 10px;
+        border-color: #121212;
+        height: 700px;
+        overflow: scroll;
       }
+
+      ::-webkit-scrollbar { 
+           display: none; 
+        }
 
       #title {
         font-size: 50px;
@@ -60,7 +75,7 @@
       }
 
       #input, .input-wrap {
-        color: lime;
+        color: #1793d1;
       }
 
       .error {
@@ -75,12 +90,14 @@
       <img id="logo" src="assets/0x00sec.png"><h1><a href="javascript:run('cat forum.txt')">Forum</a> - <a href="javascript:run('cat irc.txt')">IRC</a> - <a href="javascript:run('cat partners.txt')">Partners</a></h1>
     </div>
 
+    <div id="shell">
     <div id="output"></div>
 
     <div class="input-wrap">
       <span>$</span>
       <input id="input" type="text" autofocus />
     </div>
+  </div>
 
     <script src="bash-emulator.min.js"></script>
     <script>
@@ -93,11 +110,6 @@
           '/': {
             type: 'dir',
             modified: Date.now()
-          },
-          '/README.txt': {
-            type: 'file',
-            modified: Date.now(),
-            content: 'empty'
           },
           '/home': {
             type: 'dir',
@@ -123,6 +135,11 @@
             modified: Date.now(),
             content: '### Partners \n\nHackthebox - <a href="https://hackthebox.eu/">https://hackthebox.eu/</a>\n<br><img src="assets/hackthebox.png">\n\nSequoia Cyber Solutions - <a href="https://www.sequoiacybersolutions.com">https://www.sequoiacybersolutions.com</a>\n<br><img width="500px" src="assets/sequoia.png">\n\nBinary Ninja - https://binary.ninja/\n<br><img width="500px" src="assets/binaryninja.png">'
           },
+          '/.picklerick': {
+            type: 'file',
+            modified: Date.now(),
+            content: '\n<iframe width="560" height="315" src="https://www.youtube.com/embed/zvkmLnS4sAQ?start=28" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
+          },
           '/home/0x00sec': {
             type: 'dir',
             modified: Date.now()
@@ -143,6 +160,8 @@
         if (result) {
           output.innerHTML += result + '\n'
         }
+        var objDiv = document.getElementById("shell");
+        objDiv.scrollTop = objDiv.scrollHeight;
       }
 
       function error (result) {
@@ -175,11 +194,22 @@
 
       input.addEventListener('keydown', function (e) {
         if (e.altKey || e.metaKey || e.shiftKey || e.ctrlKey) {
-          return
+          e.preventDefault()
+          input.focus()
         }
         if (e.which === UP || e.which === DOWN) {
           e.preventDefault()
           complete(e.which)
+        }
+
+        if (e.ctrlKey && event.keyCode == 76) {
+          run("clear")
+          input.focus()
+        }
+
+        if (e.ctrlKey && event.keyCode == 67) {
+          input.value = '\n';
+          input.focus()
         }
       })
 
