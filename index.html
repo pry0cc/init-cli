@@ -231,9 +231,18 @@
         input.focus()
       })
 
-      run('pwd').then(function () {
-        run('ls')
-      })
+      let currPage = window.location.href.split("?")[1];
+      if(["irc", "forum", "partners" ].includes(currPage)) {
+          run(`cat /home/0x00sec/${currPage}.txt`).then(function() {
+              run("pwd").then(function () {
+                  run("ls");
+              });
+          });
+      } else {
+          run("pwd").then(function () {
+              run("ls")
+          });
+      }
     </script>
   <body>
 <html>
