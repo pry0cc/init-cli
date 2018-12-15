@@ -259,7 +259,13 @@
           }
           emulator.readDir('.').then(function (files) {
             let match = files.filter(file => !file.startsWith('.') && file.toLowerCase().includes(fileToComplete.toLowerCase()))[0];
-            input.value = terms.join(' ') + ' ' + match;
+            if (match) {
+              input.value = terms.join(' ') + ' ' + match;
+            } else {
+              input.focus()
+              return;
+            }
+
           })
         }
 
