@@ -123,12 +123,12 @@
           '/home/0x00sec/irc.txt': {
             type: 'file',
             modified: Date.now(),
-            content: 'irc.0x00sec.org:6697+ or https://webchat.0x00sec.org/'
+            content: 'irc.0x00sec.org:6697+ or <a href="https://webchat.0x00sec.org/">https://webchat.0x00sec.org/</a>. Type open irc.txt to run.'
           },
           '/home/0x00sec/forum.txt': {
             type: 'file',
             modified: Date.now(),
-            content: 'https://0x00sec.org/'
+            content: '<a href="https://0x00sec.org/">https://0x00sec.org/</a>. Type open forum.txt to run.'
           },
           '/home/0x00sec/.flag.txt': {
             type: 'file',
@@ -187,6 +187,32 @@
           }
         }
       })
+
+      emulator.commands.open = function open(env, args) {
+        // Ignore command name
+        args.shift();
+
+        if (!args.length) {
+          env.error("open: missing filename");
+          env.exit(1);
+          return;
+        }
+
+        switch (args[0]) {
+          case "forum.txt":
+            window.location.href = ("https://0x00sec.org");
+            break;
+          case "irc.txt":
+            window.location.href = ("https://webchat.0x00sec.org/");
+            break;
+          default:
+            env.error("That file doesn't open");
+            env.exit(1);
+            return;
+        }
+
+        env.exit();
+      }
 
       emulator.commands.clear = function (env) {
         output.innerHTML = ''
