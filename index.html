@@ -248,6 +248,27 @@
           input.focus()
         }
 
+        if (e.key == "Tab") {
+          e.preventDefault();
+          let terms = input.value.split(' ');
+          let fileToComplete = terms.pop();
+          if(terms.length < 1 || fileToComplete.length < 1) {
+            // To stop command completion. Too much work
+            input.focus()
+            return;
+          }
+          emulator.readDir('.').then(function (files) {
+            let match = files.filter(file => !file.startsWith('.') && file.toLowerCase().includes(fileToComplete.toLowerCase()))[0];
+            if (match) {
+              input.value = terms.join(' ') + ' ' + match;
+            } else {
+              input.focus()
+              return;
+            }
+
+          })
+        }
+
         if (e.ctrlKey && event.keyCode == 67) {
           input.value = '\n';
           input.focus()
