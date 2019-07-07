@@ -102,7 +102,7 @@
   <body>
 
     <div id="header">
-      <img id="logo" src="assets/0x00sec.png"><h1><a href="javascript:run('cat forum.txt')">Forum</a> - <a href="javascript:run('cat irc.txt')">IRC</a> - <a href="javascript:run('cat partners.txt')">Partners</a></h1>
+      <img id="logo" src="assets/0x00sec.png"><h1><a href="javascript:run('cat forum.txt')">Forum</a> - <a href="javascript:run('cat partners.txt')">Partners</a></h1>
     </div>
 
     <div id="shell">
@@ -130,11 +130,6 @@
             type: 'dir',
             modified: Date.now()
           },
-          '/home/0x00sec/irc.txt': {
-            type: 'file',
-            modified: Date.now(),
-            content: 'irc.0x00sec.org:6697+ or <a href="https://webchat.0x00sec.org/">https://webchat.0x00sec.org/</a>. Type open irc.txt to run.'
-          },
           '/home/0x00sec/forum.txt': {
             type: 'file',
             modified: Date.now(),
@@ -148,7 +143,7 @@
           '/home/0x00sec/partners.txt': {
             type: 'file',
             modified: Date.now(),
-            content: '### Partners \n\nHackthebox - <a href="https://hackthebox.eu/">https://hackthebox.eu/</a>\n<br><img src="assets/hackthebox.png">\n\nSequoia Cyber Solutions - <a href="https://www.sequoiacybersolutions.com">https://www.sequoiacybersolutions.com</a>\n<br><img width="500px" src="assets/sequoia.png">\n\nBinary Ninja - <a href="https://binary.ninja/">https://binary.ninja/</a>\n<br><img width="500px" src="assets/binaryninja.png">'
+            content: '### Partners \n\nHackthebox - <a href="https://hackthebox.eu/">https://hackthebox.eu/</a>\n<br><img src="assets/hackthebox.png">\n\nNaviSec Cyber Security - <a href="https://navisec.io">https://navisec.io</a>\n<br><img width="500px" src="https://navisec.io/wp-content/uploads/2019/03/NaviSec-Logo-White-Gold-1024x237-1.png">\n\nBinary Ninja - <a href="https://binary.ninja/">https://binary.ninja/</a>\n<br><img width="500px" src="assets/binaryninja.png">'
           },
           '/etc': {
             type: 'dir',
@@ -211,9 +206,6 @@
         switch (args[0]) {
           case "forum.txt":
             window.location.href = ("https://0x00sec.org");
-            break;
-          case "irc.txt":
-            window.location.href = ("https://webchat.0x00sec.org/");
             break;
           default:
             env.error("That file doesn't open");
